@@ -1,0 +1,14 @@
+hamming encoding only works with certain block sizes
+    -(7,4) is most common but also (15,11) or (31,26)
+
+array can only store 1 byte per index not 1 bit
+    -wasteful to be used as param
+
+Goal:
+    encode and decode/correct data
+    input files to be encoded and decoded
+
+
+Implemenation:
+    custom data structure for input?
+        - data block for hamming

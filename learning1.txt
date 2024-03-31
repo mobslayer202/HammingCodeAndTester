@@ -1,0 +1,3 @@
+std::cout and similar functions which dont require object creation are static
+
+if you dont need data members use namespace instead of class?? - GPT
