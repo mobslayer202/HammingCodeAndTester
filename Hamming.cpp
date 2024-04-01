@@ -1,25 +1,13 @@
 #include "Hamming.hpp"
 
-#include <iostream>
-#include <bitset>
 // don't put static?
 short Hamming::encode(short message){
     // Calculate parities except p0
     // Rightmost is first
-    short p8Mask = 0b00000'111'1111'0000;
-    short p4Mask = 0b00000'111'1000'1110;
-    short p2Mask = 0b00000'110'0110'1101;
-    short p1Mask = 0b00000'101'0101'1011;
-
-    short p8Vals = p8Mask & message;
-    short p4Vals = p4Mask & message;
-    short p2Vals = p2Mask & message;
-    short p1Vals = p1Mask & message;
-
-    bool p8 = __builtin_parity(p8Vals);
-    bool p4 = __builtin_parity(p4Vals); 
-    bool p2 = __builtin_parity(p2Vals); 
-    bool p1 = __builtin_parity(p1Vals);
+    bool p8 = maskNParity(0b00000'111'1111'0000, message);
+    bool p4 = maskNParity(0b00000'111'1000'1110, message);
+    bool p2 = maskNParity(0b00000'110'0110'1101, message);
+    bool p1 = maskNParity(0b00000'101'0101'1011, message);
 
     // 0000 0000 b11,b10,b9,b8 b7,b6,b5,p8
     short encoded = message >> 4;
@@ -55,20 +43,10 @@ short Hamming::decode(short encoded){
     bool oddError = __builtin_parity(encoded);
 
     // Calculate gpx * npx
-    short rp8Mask = 0b1111'1111'0000'0000;
-    short rp4Mask = 0b1111'0000'1111'0000;
-    short rp2Mask = 0b1100'1100'1100'1100;
-    short rp1Mask = 0b1010'1010'1010'1010;
-
-    short rp8Vals = rp8Mask & encoded;
-    short rp4Vals = rp4Mask & encoded;
-    short rp2Vals = rp2Mask & encoded;
-    short rp1Vals = rp1Mask & encoded;
-
-    bool rp8 = __builtin_parity(rp8Vals);
-    bool rp4 = __builtin_parity(rp4Vals); 
-    bool rp2 = __builtin_parity(rp2Vals); 
-    bool rp1 = __builtin_parity(rp1Vals);
+    bool rp8 = maskNParity(0b1111'1111'0000'0000, encoded);
+    bool rp4 = maskNParity(0b1111'0000'1111'0000, encoded); 
+    bool rp2 = maskNParity(0b1100'1100'1100'1100, encoded);
+    bool rp1 = maskNParity(0b1010'1010'1010'1010, encoded);
 
     // Assemble error location finder
     char location = rp8;
@@ -85,7 +63,6 @@ short Hamming::decode(short encoded){
 
     // Handle 0, 1 or 2 bit error
     if (oddError){ // Assume 1 bit error and correct
-        std::cout << "GOOD\n";
         short flipper = 1;
         for (char i=0; i<location; i++){ // Location never 0 if Odd Num Errors
             flipper <<= 1;
@@ -96,20 +73,15 @@ short Hamming::decode(short encoded){
 
     }
     else { 
-
         if (location) { // Nonzero - Assume 2 bit error, do nothing for 0 bit
             result = 0b1000'0000'0000'0000;
         }
     }
 
     // Assemble result
-    short b11t5Mask = 0b1111'1110'0000'0000;
-    short b432Mask = 0b0000'0000'1110'0000;
-    short b1Mask = 0b0000'0000'0000'1000;
-
-    short b11t5 = b11t5Mask & encoded;
-    short b432 = b432Mask & encoded;
-    short b1 = b1Mask & encoded;
+    short b11t5 = 0b1111'1110'0000'0000 & encoded;
+    short b432 = 0b0000'0000'1110'0000 & encoded;
+    short b1 = 0b0000'0000'0000'1000 & encoded;
 
     b11t5 >>= 5;
     b432 >>= 4;
@@ -118,4 +90,8 @@ short Hamming::decode(short encoded){
     result += b11t5 + b432 + b1;
 
     return result;
+}
+
+bool Hamming::maskNParity(short mask, short data){
+    return __builtin_parity(mask & data);
 }

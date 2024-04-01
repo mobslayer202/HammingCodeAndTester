@@ -9,7 +9,7 @@ int main() {
     short data = 0b00000'010'1010'1010;
 
     short encoded = Hamming::encode(data);
-    short error = 0b0000'0000'0000'0000;
+    short error = 0b0000'0000'0000'0001;
     short adjusted = encoded ^ error;
     short decoded = Hamming::decode(adjusted);
 
@@ -26,4 +26,8 @@ int main() {
     std::cout << "Decoded: " << dec << "\n";
     
     return 0;
+}
+
+void hammingTester(int numToFlip){
+    
 }
