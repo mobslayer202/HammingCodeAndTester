@@ -1,5 +1,6 @@
 class Hamming{
     public:
-        short encode (short message);
-        short decode (short encoded);
+        static short encode (short message);
+        static short decode (short encoded);
+
 };

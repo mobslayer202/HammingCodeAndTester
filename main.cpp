@@ -1,19 +1,29 @@
 #include <iostream>
 #include <bitset>
 
+#include "Hamming.hpp"
+
 int main() {
 
-    unsigned short data = 0b10'1010'1010;
+    // Input data
+    short data = 0b00000'010'1010'1010;
 
-    // Rightmost is first
-    unsigned short p8Mask = 0b00000'111'1111'0000;
-    unsigned short p4Mask = 0b00000'111'1000'1110;
-    unsigned short p2Mask = 0b00000'110'0110'1101;
-    unsigned short p1Mask = 0b00000'101'0101'1011;
-    data = __builtin_parity(data); // __builtin_popcount(x)
+    short encoded = Hamming::encode(data);
+    short error = 0b0000'0000'0000'0000;
+    short adjusted = encoded ^ error;
+    short decoded = Hamming::decode(adjusted);
+
+
     std::bitset<16> message(data);
+    std::bitset<16> adj(adjusted);
+    std::bitset<16> enc(encoded);
+    std::bitset<16> dec(decoded);
     //std::cout << message << " Size: " << sizeof(data) << "\n";
-    std::cout << "Parity: " << data;
+    //std::cout << "Parity: " << message << " Size: " << sizeof(message) << "\n";
+    std::cout << "Message: " << message << "\n";
+    std::cout << "Encoded: " << enc << "\n";
+    std::cout << "Adjustd: " << adj << "\n";
+    std::cout << "Decoded: " << dec << "\n";
     
     return 0;
 }

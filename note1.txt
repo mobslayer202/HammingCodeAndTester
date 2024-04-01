@@ -12,3 +12,15 @@ Goal:
 Implemenation:
     custom data structure for input?
         - data block for hamming
+
+
+4 bit error seeming normal:
+p1,p2,p4,d4
+    - p0^np0 is normal because even error
+    - "given" parities reflect calculated parities  
+        - even though value diff than before
+
+
+
+Weird:
+Making 'location' byte 'bool' instead of 'char' set it to 1 instead of 9...
