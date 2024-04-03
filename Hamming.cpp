@@ -1,3 +1,6 @@
+#include <iostream>
+#include <bitset>
+
 #include "Hamming.hpp"
 
 // don't put static?
@@ -79,15 +82,27 @@ short Hamming::decode(short encoded){
     }
 
     // Assemble result
-    short b11t5 = 0b1111'1110'0000'0000 & encoded;
-    short b432 = 0b0000'0000'1110'0000 & encoded;
-    short b1 = 0b0000'0000'0000'1000 & encoded;
+    unsigned short b11t5 = 0b1111'1110'0000'0000 & encoded; // Some compilers will do arithmetic >> on signed int
+    unsigned short b432 = 0b0000'0000'1110'0000 & encoded;
+    unsigned short b1 = 0b0000'0000'0000'1000 & encoded;
 
     b11t5 >>= 5;
     b432 >>= 4;
     b1 >>= 3;
 
     result += b11t5 + b432 + b1;
+
+    short weird = 0b0011'1000'0000'0000 & result;
+    std::bitset<16> w11t5(b11t5);
+    std::bitset<16> w432(b432);
+    std::bitset<16> w1(b1);
+    std::bitset<16> wresult(result);
+    if (weird){
+        std::cout << "11t5: " << w11t5 << "\n";
+        std::cout << "432: " << w432 << "\n";
+        std::cout << "1: " << w1 << "\n";
+        std::cout << "result: " << wresult << "\n\n";
+    }
 
     return result;
 }
