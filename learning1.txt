@@ -5,3 +5,6 @@ if you dont need data members use namespace instead of class?? - GPT
 >>= on unsigned will be logical (bring in 0s)
 >>= on signed will be arithmetic, depending on compiler (bring in copy of leftmost)
 logical for << on unsigned; undefined behavior for << on signed - GPT
+    - probably why 65536 shown on a short
+    - changed the (& mask) to (<< 2) after changing values from short to unsigned short but still same problem
+        - need to assign to unsigned short variable, doesnt work with expression only?

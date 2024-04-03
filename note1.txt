@@ -24,3 +24,13 @@ p1,p2,p4,d4
 
 Weird:
 Making 'location' byte 'bool' instead of 'char' set it to 1 instead of 9...
+
+passing std::ofstream as param:
+    need to pass by reference or else red squiggly
+    can't output to stream if declared const
+
+Mistakenly put std::ofstream in log function: made it keep overriding the old log so only one output was there in the end 
+    weird: slower than having 3 streams open at the start of the function
+        - repeated open and closing stream make slower      
+        - or repeated delete and replacing make slower?
+        - would still be slow for append?
