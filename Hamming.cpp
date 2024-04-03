@@ -92,18 +92,6 @@ short Hamming::decode(short encoded){
 
     result += b11t5 + b432 + b1;
 
-    short weird = 0b0011'1000'0000'0000 & result;
-    std::bitset<16> w11t5(b11t5);
-    std::bitset<16> w432(b432);
-    std::bitset<16> w1(b1);
-    std::bitset<16> wresult(result);
-    if (weird){
-        std::cout << "11t5: " << w11t5 << "\n";
-        std::cout << "432: " << w432 << "\n";
-        std::cout << "1: " << w1 << "\n";
-        std::cout << "result: " << wresult << "\n\n";
-    }
-
     return result;
 }
 
