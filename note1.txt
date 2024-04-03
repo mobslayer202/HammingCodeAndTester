@@ -34,3 +34,6 @@ Mistakenly put std::ofstream in log function: made it keep overriding the old lo
         - repeated open and closing stream make slower      
         - or repeated delete and replacing make slower?
         - would still be slow for append?
+
+I heard theres a problem if you include the same library in two files and one of the two files includes the others.
+    - no problem here.
