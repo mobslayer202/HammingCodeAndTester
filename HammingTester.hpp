@@ -4,6 +4,6 @@ class HammingTester{
     // testfor(startData, endData)
 
     public:
-        void test(short numToFlip);
+        static void test(short numToFlip);
         
 };
